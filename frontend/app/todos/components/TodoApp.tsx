@@ -52,14 +52,12 @@ export default function TodoApp() {
   const filter = (searchParams.get("filter") ?? "all") as Filter;
   const search = searchParams.get("search") ?? "";
 
-  // 입력창 로컬 상태 (URL과 별도로 즉시 반응)
   const [searchInput, setSearchInput] = useState(search);
   const [weekStart, setWeekStart] = useState(() => getWeekStart(new Date()));
   const [selectedDate, setSelectedDate] = useState(toISODate(new Date()));
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
 
-  // 최신 searchParams를 항상 참조하기 위한 ref (디바운스 클로저 문제 방지)
   const searchParamsRef = useRef(searchParams);
   searchParamsRef.current = searchParams;
 
@@ -78,7 +76,6 @@ export default function TodoApp() {
     fetchTodos();
   }, [fetchTodos]);
 
-  // 검색어 입력 후 300ms 디바운스 → URL 업데이트 (history 오염 방지에 replace 사용)
   useEffect(() => {
     const timer = setTimeout(() => {
       const params = new URLSearchParams(searchParamsRef.current.toString());
@@ -91,16 +88,14 @@ export default function TodoApp() {
       router.replace(query ? `${pathname}?${query}` : pathname);
     }, 300);
     return () => clearTimeout(timer);
-  }, [searchInput]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [searchInput]); 
 
-  // 선택한 날짜의 Todo만 표시 (날짜 필터링은 클라이언트)
   const filteredTodos = todos.filter((t) => t.date === selectedDate);
 
   function countForDate(date: Date) {
     return todos.filter((t) => t.date === toISODate(date)).length;
   }
 
-  // 필터 탭 클릭 → URL 업데이트 (search 파라미터 유지)
   function handleFilterChange(f: Filter) {
     const params = new URLSearchParams(searchParams.toString());
     if (f === "all") {
@@ -151,10 +146,16 @@ export default function TodoApp() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: "#ede9f6" }}>
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{ backgroundColor: "#f7f5fc" }}
+    >
       <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-lg">
         {/* 제목 */}
-        <h1 className="text-3xl font-bold italic text-center mb-6" style={{ color: "#5b35c5" }}>
+        <h1
+          className="text-3xl font-bold italic text-center mb-6"
+          style={{ color: "#5b35c5" }}
+        >
           Todo List
         </h1>
 
@@ -194,7 +195,9 @@ export default function TodoApp() {
                 }}
               >
                 <span className="text-xs mb-1">{DAY_KO[i]}</span>
-                <span className="text-lg font-bold leading-tight">{date.getDate()}</span>
+                <span className="text-lg font-bold leading-tight">
+                  {date.getDate()}
+                </span>
                 <span className="text-xs mt-1">{count}</span>
               </button>
             );
@@ -264,7 +267,9 @@ export default function TodoApp() {
         {/* Todo 목록 */}
         {filteredTodos.length === 0 ? (
           <p className="text-center text-gray-400 py-8 text-sm">
-            {search ? `"${search}"에 해당하는 Todo가 없습니다.` : "할 일이 없습니다. 추가해보세요!"}
+            {search
+              ? `"${search}"에 해당하는 Todo가 없습니다.`
+              : "할 일이 없습니다. 추가해보세요!"}
           </p>
         ) : (
           <ul className="space-y-2">
@@ -284,7 +289,9 @@ export default function TodoApp() {
                 />
                 <span
                   className={`flex-1 text-sm ${
-                    todo.completed ? "line-through text-gray-400" : "text-gray-700"
+                    todo.completed
+                      ? "line-through text-gray-400"
+                      : "text-gray-700"
                   }`}
                 >
                   {todo.title}
