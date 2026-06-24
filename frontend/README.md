@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kakao Assignment 3
 
-## Getting Started
+## 프로젝트 소개
 
-First, run the development server:
+Next.js와 FastAPI를 활용하여 구현한 Todo 관리 서비스입니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+기존 로컬스토리지 기반 Todo 애플리케이션을 서버 API 기반 구조로 변경하였으며, 프론트엔드와 백엔드를 분리하여 데이터를 관리하도록 구현하였습니다.
+
+---
+
+## 기술 스택
+
+### Frontend
+
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+
+### Backend
+
+- FastAPI
+- Python
+
+---
+
+## 주요 기능
+
+- Todo 생성(Create)
+- Todo 조회(Read)
+- Todo 수정(Update)
+- Todo 삭제(Delete)
+- 진행 상태 필터링
+- Todo 검색 기능
+- 주간 캘린더 기반 일정 관리
+- 날짜별 Todo 조회
+
+---
+
+## 프로젝트 구조
+
+```text
+kakao-assignment-3
+├── frontend
+│   ├── app
+│   └── public
+└── backend
+    ├── main.py
+    └── requirements.txt
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 실행 방법
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Frontend
 
-## Learn More
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+cd backend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+python -m venv .venv
+source .venv/bin/activate
 
-## Deploy on Vercel
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 구현하면서 배운 점
+
+- Next.js App Router의 파일 기반 라우팅 구조를 이해할 수 있었습니다.
+- FastAPI와 연동하며 프론트엔드와 백엔드의 데이터 흐름을 경험할 수 있었습니다.
+- 기존 로컬스토리지 방식과 서버 API 방식의 차이를 이해할 수 있었습니다.
+
+---
+
+## GitHub Repository
+
+https://github.com/yunn1215/kakao-assignment-3

@@ -10,21 +10,19 @@ from dotenv import load_dotenv
 
 load_dotenv(".env.local")
 
-# DB 설정
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./todos.db")
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# DB 모델 (테이블 구조 정의)
 class Todo(Base):
     __tablename__ = "todos"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
     completed = Column(Boolean, default=False)
-    date = Column(String, nullable=True)  # ISO date string YYYY-MM-DD
+    date = Column(String, nullable=True)  
 
-# Pydantic 스키마 (요청/응답 데이터 구조 정의)
+
 class TodoCreate(BaseModel):
     title: str
     completed: bool = False
@@ -46,18 +44,18 @@ class TodoResponse(BaseModel):
 # 테이블 생성
 Base.metadata.create_all(bind=engine)
 
-# 기존 DB에 date 컬럼이 없을 경우 추가
+
 with engine.connect() as conn:
     try:
         conn.execute(text("ALTER TABLE todos ADD COLUMN date TEXT"))
         conn.commit()
     except Exception:
-        pass  # 이미 존재하는 경우 무시
+        pass  
 
 # FastAPI 앱 생성
 app = FastAPI(title="Todo API")
 
-# FastAPI 앱 미들웨어 및 CORS 설정
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
